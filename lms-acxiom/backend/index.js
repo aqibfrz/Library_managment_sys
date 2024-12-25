@@ -1,0 +1,44 @@
+const express = require("express");
+const app = express();
+const cors = require('cors')
+let db = require("./db")
+
+
+const HOST = "localhost";
+const PORT = 3000;
+
+app.set("view engine", "ejs");
+app.use(express.static("./public"));
+app.use(express.json()); // Parses req.body content (in json) to javascript object
+app.use(cors());
+
+
+
+
+
+const authRoutes = require('./routes/authRoutes');
+const bookRoutes = require('./routes/bookRoutes');
+
+
+// Authentication Routes (extended)
+app.use("/auth", authRoutes);
+
+// Book Routes (extended)
+app.use("/book", bookRoutes);
+
+// Home Routes
+app.get("/", (req, res) => {
+  res.send("<h1><i>Hello World</i></h1>");
+});
+
+
+
+
+app.listen(PORT, HOST, (err) => {
+  if (!err) {
+    console.log("Server started...");
+    console.log(`Server adress: http://${HOST}:${PORT}`);
+  } else {
+    console.log(`Error Occured: ${err}`);
+  }
+});
